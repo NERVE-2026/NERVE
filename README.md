@@ -5,7 +5,6 @@ This is the official code repoitory of our paper "[NERVE: Noise-Variability-Robu
 
 ## Environment Setup
 
-Install [Python](https://www.python.org/downloads/)
 Install requirments:
 ```bash
 conda create -n nerve python=3.12
