@@ -1,0 +1,76 @@
+seed: 2025
+model: base
+
+# dataset & dataloader
+root_path: ../dataset/processed/eeg
+seq_len: 25600
+patch_size: 200
+num_workers: 8
+batch_size: 256
+stride: 800
+
+# define vq encoder & decoder
+e_layers: 12
+d_layers: 3
+out_channel: 8
+d_model: 200
+num_head: 10
+num_group: 6
+qkv_bias: false
+qk_norm: null
+qk_scale: null
+dropout: 0.1
+attn_dropout: 0.1
+norm: layernorm
+activation: gelu
+use_abs_pos_emb: true
+use_ch_emb: true
+use_mean_pooling: false
+mask_prob: 0.5
+alpha: 0.1
+
+# define quantizer
+num_tokens: 8192
+d_codebook: 64
+ema_decay: 0.99
+eps: 1e-5
+statistic_code_usage: true
+kmeans_init: true
+codebook_init_path: ''
+
+# training
+train_epochs: 10
+lr: 3e-4
+min_lr: 1e-5
+warmup_lr_init: 1e-6
+warmup_epochs: 1
+loss: l1_loss
+pretrain_path: outputs/pretrain_checkpoints
+max_grad_norm: 3.0
+weight_decay: 5e-2
+
+start_epoch: 0
+save_freq: 5
+
+# gpu
+use_gpu: true
+gpu: 0
+use_multi_gpu: false
+devices: '0,1,2,3'
+
+# DDP 관련 추가
+use_ddp: false
+world_size: 1
+rank: 0
+dist_url: tcp://127.0.0.1:23456
+
+# vq task version
+vq_task: 2
+enc_type: epa2
+head_type: pretrain
+
+# wandb
+use_wandb: false
+project: fm-pretraining
+run_name: '0'
+wandb_dir: ./outputs/wandb

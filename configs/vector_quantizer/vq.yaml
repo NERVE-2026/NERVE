@@ -1,0 +1,74 @@
+# Vector quantizer pretrain configuration
+seed: 2025
+
+# dataset & dataloader
+root_path: ../dataset/processed/eeg
+seq_len: 25600
+patch_size: 200
+num_workers: 8
+batch_size: 256
+stride: 200
+
+# encoder / decoder
+e_layers: 9
+d_layers: 3
+out_channel: 8
+d_model: 200
+num_head: 10
+num_group: 6
+qkv_bias: false
+qk_norm: null
+qk_scale: null
+dropout: 0.1
+attn_dropout: 0.1
+norm: layernorm
+activation: gelu
+use_abs_pos_emb: true
+use_ch_emb: true
+use_mean_pooling: false
+
+# quantizer
+num_tokens: 8192
+d_codebook: 64
+ema_decay: 0.99
+eps: 1e-5
+statistic_code_usage: true
+kmeans_init: true
+codebook_init_path: ''
+
+# augmentation
+noise_sample_ratio: 0.5
+noise_std: 0.05
+
+# training
+train_epochs: 20
+lr: 5e-5
+min_lr: 1e-5
+warmup_lr_init: 1e-6
+warmup_epochs: 2
+loss: l1_loss
+weight_decay: 1e-4
+pretrain_path: outputs/pretrain_checkpoints
+max_grad_norm: 3.0
+start_epoch: 0
+save_freq: 5
+
+# gpu / ddp
+use_gpu: true
+gpu: 0
+use_multi_gpu: false
+devices: "0,1"
+use_ddp: false
+world_size: 2
+rank: 0
+dist_url: "tcp://127.0.0.1:23456"
+
+# other
+vq_task: 2
+enc_type: epa2
+
+# wandb
+use_wandb: false
+project: vq-pretraining
+run_name: experiment01
+wandb_dir: ./outputs/wandb
